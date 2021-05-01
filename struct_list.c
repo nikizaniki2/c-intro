@@ -69,21 +69,25 @@ void print_cars(car root){
 
 car deleteByPrice(car root, double price)
 {
-    while(root && root->myCar.price < price)
+	if(root->next->myCar.price < price){
+		root->next = root->next->next;
+	}else{
+    root = root->next;
+  }
+    while(root->next)
     {
-        root = root->next;
+    	car current = root;
+    	if(current->next){
+	    	if(current->next->myCar.price < price){
+	    		// printf("%s %lf \n", current->next->myCar.model, current->next->myCar.price);
+	    		current->next = current->next->next;
+	    		// free(current);
+          root = root->next;
+	    	}
+	    }
     }
 
-    car current;
-    for(current = root; current != NULL; current = current->next)
-    {
-        car temp = current->next;
-        current->next = temp->next;
-        free(temp);
-    }
-
-    free(current);
-    return root;
+   return root;
 }
 
 int main()
@@ -92,7 +96,7 @@ int main()
     printf("How many cars: ");
     scanf("%d",&num);
     printf("\n");
-    int *root = createCar();
+    car root = createCar();
     for (int i=0;i<num;i++){
         addCar(root);
     }
