@@ -1,13 +1,16 @@
-# Funcs:
+# Applying Lab 9
+
+# Implement Functionality:
 - Create list of structs (dynamically)
 - Add element
 - Delete item by name
+- Search art by price
 - Print highest price art piece
 - Print all art pieces
 
 # REQUIREMENTS:
 - Program is looped
-- Print menu when not in Func
+- Navigation Menu
 
 # Art Piece:
 ```
@@ -16,7 +19,7 @@
 - art_name(str)
 - price(double)
 ```
-# MyList:
+# My List:
 ```
 - struct ArtPiece art_piece
 - struct MyList *next
@@ -26,8 +29,9 @@
   0. EXIT
   1. Create list
   2. Add new data
-  3. Delete picture
+  3. Delete art by name
   4. Search by price
-  5. Print info for all pictures
-  6. "============="
+  5. Print highest price art piece
+  6. Print info for all art pieces
+  - "============="
   - Your choice:
