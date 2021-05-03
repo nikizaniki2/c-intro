@@ -154,6 +154,16 @@ void print_highest_price(MyList *root)
    max = max->next;
 }
 
+void clean_up(MyList *root)
+{
+  MyList* curr_item = root;
+  while(root != NULL)
+  {
+    root = root->next;
+    free(curr_item);
+    curr_item = root;
+  }
+}
 int main(){
   MyList *root = NULL;
   int navigator = -1;
@@ -175,6 +185,9 @@ int main(){
     }
     switch (navigator) {
       case 0:
+      if (list_exists){
+        clean_up(root);
+      }
       break;
       case 1:
       if (list_exists){
@@ -203,6 +216,7 @@ int main(){
       {
         print_by_price(root);
       }
+      else printf("\n\nNo list to search from!!!\n\n");
       break;
       case 5:
       if (list_exists){
