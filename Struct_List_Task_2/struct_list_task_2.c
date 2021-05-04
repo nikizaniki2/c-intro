@@ -80,8 +80,6 @@ void print_all_art(MyList *root)
   }
 }
 
-//we don't use void here because
-//if we want to delete the first element we need to change root
 //I (personal opinion) disagree with the way removing an item is
 //described in Lab 9 (overcomplicated af)
 //We can just check the next item instead of tracking the previous one.

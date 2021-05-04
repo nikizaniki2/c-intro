@@ -1,14 +1,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-//do one way list of structs (cars)
-//struct car has a brand, model, color and price.
-
-//func -> generate n(unkown) number of car(s)
-//func -> print_all
-//func -> delete car below given price
-
-struct Mycar
+struct MyCar
 {
      char brand[20];
      char model[20];
@@ -18,93 +11,96 @@ struct Mycar
 
 struct Mylist
 {
-    struct Mycar myCar;
+    struct MyCar MyCar;
     struct Mylist *next;
 };
 
-typedef struct Mylist *car;
+typedef struct Mylist Car;
 
-car createCar(){
-    car temp;
-    temp = (car)malloc(sizeof(struct Mylist));
-    temp->next = NULL;
-    return temp;
+Car *add_car(Car *root){
+  Car *pointer = NULL;
+  pointer = (Car *)malloc(sizeof(Car));
+
+  printf("Brand of car: ");
+  scanf(" %s", pointer->MyCar.brand);
+  printf("Name of car: ");
+  scanf(" %s", pointer->MyCar.model);
+  printf("Color of car: ");
+  scanf(" %s", pointer->MyCar.color);
+  printf("Price of car: ");
+  scanf("%lf", &pointer->MyCar.price);
+
+  pointer->next = NULL;
+
+  return pointer;
 }
 
-car addCar(car root){
-    car temp, p;
-    temp = createCar();
-    printf("Brand :");
-    scanf("%s", temp->myCar.brand);
-    printf("Model :");
-    scanf("%s", temp->myCar.model);
-    printf("Color :");
-    scanf("%s", temp->myCar.color);
-    printf("Price :");
-    scanf("%lf", &temp->myCar.price);
+//returns root of list
+Car *generate_cars(){
+  int num_of_cars = 0;
+  printf("How many cars to generate: ");
+  scanf("%d", &num_of_cars);
 
-    if(root == NULL){
-        root = temp;
-    }
-    else{
-        p = root;
-        while(p->next != NULL){
-            p = p->next;
-        }
-        p->next = temp;
-    }
-    return root;
+  Car *root = NULL;
+  Car *current = NULL;
+  for(int i = 0; i < num_of_cars; i++)
+  {
+    current = add_car(root);
+    current->next = root;
+    root = current;
+  }
+  return root;
 }
 
-void print_cars(car root){
-    car current;
-    current = root->next;
-    while(current != NULL){
-        printf("brand %s, model %s, color %s, price %lf", current->myCar.brand, current->myCar.model, current->myCar.color, current->myCar.price);
-        printf("\n");
-        current = current->next;
-    }
-    free(current);
-}
-
-car deleteByPrice(car root, double price)
+void print_cars(Car *root)
 {
-	if(root->next->myCar.price < price){
-		root->next = root->next->next;
-	}else{
+  Car *current = root;
+  while(current)
+  {
+    printf("%s, %s, %s, %lf\n", current->MyCar.brand,
+     current->MyCar.model,
+     current->MyCar.color, current->MyCar.price);
+     current = current->next;
+  }
+}
+
+Car *delete_cars(Car *root)
+{
+  int price = 0;
+  printf("Price to delete by: ");
+  scanf("%d", &price);
+
+//if the first element is lower then price
+  if (root->MyCar.price < price)
+  {
     root = root->next;
   }
-    while(root->next)
-    {
-    	car current = root;
-    	if(current->next){
-	    	if(current->next->myCar.price < price){
-	    		// printf("%s %lf \n", current->next->myCar.model, current->next->myCar.price);
-	    		current->next = current->next->next;
-	    		// free(current);
-          root = root->next;
-	    	}
-	    }
-    }
 
-   return root;
+  Car *current = root;
+
+  while(current->next)
+  {
+    if(current->next->MyCar.price < price)
+    {
+      if(current->next->next)
+      {
+        current->next = current->next->next;
+      }
+      else
+      {
+        current->next = NULL;
+      }
+    }
+  }
+  return root;
 }
 
 int main()
 {
-    int num = 0;
-    printf("How many cars: ");
-    scanf("%d",&num);
-    printf("\n");
-    car root = createCar();
-    for (int i=0;i<num;i++){
-        addCar(root);
-    }
-    print_cars(root);
-    printf("Price to delete by: ");
-    double deletePrice;
-    scanf("%lf", &deletePrice);
-    deleteByPrice(root, deletePrice);
-    print_cars(root);
-    return 0;
+  Car *root = generate_cars();
+  print_cars(root);
+  root = delete_cars(root);
+  printf("\nPrice filter applied.\n\n");
+  print_cars(root);
+  return 0;
 }
