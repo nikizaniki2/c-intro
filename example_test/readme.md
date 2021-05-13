@@ -1,7 +1,17 @@
 # Example Test PIK - 2
 
 # Task 1
+
 ## Code by Mirela Ilieva  group 42
+
+## Implement Functionality:
+0. In a binary file you have a integer N and after it N number of integers.
+1. Func that generates the file.
+2. Func that prints to screen the amount of even and odd numbers in said file.
+3. Func that reads the file and sorts the numbers in it by ascending order.
+
+# Task 2
+
 ## Implement Functionality:
 0. Write structs: Employee, List.
 1. Func that writes the contents of every element(Employee) of List to binary file.
@@ -21,11 +31,3 @@
   - Employee (Struct)
   - *next (Struct)
 ```
-
-# Task 2
-
-## Implement Functionality:
-0. In a binary file you have a integer N and after it N number of integers.
-1. Func that generates the file.
-2. Func that prints to screen the amount of even and odd numbers in said file.
-3. Func that reads the file and sorts the numbers in it by ascending order.
