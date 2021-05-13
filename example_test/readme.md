@@ -1,7 +1,7 @@
 # Example Test PIK - 2
 
 # Task 1
-
+## Code by Mirela Ilieva  group 42
 ## Implement Functionality:
 0. Write structs: Employee, List.
 1. Func that writes the contents of every element(Employee) of List to binary file.

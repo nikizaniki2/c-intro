@@ -1,63 +1,118 @@
-#include <stdio.h>
-#include <stdlib.h>
+# include <stdio.h>
+# include <stdlib.h>
 
-int main()
+struct Employee
 {
-    int n,i,j,countOfEven,countOfOdd,swap;
-    printf("Count of digits:\n");
-    scanf("%d", &n);
-    int arr[n];
-    FILE *fp;
+     char name[20];
+     double salary;
+     char gender;
+};
 
-    if((fp=fopen("FileN","wb"))==NULL)
-    {
-        printf("Error opening file!\n");
+struct List
+{
+    struct Employee employee;
+    struct List *next;
+};
+
+typedef struct List Emp;
+
+void write_to_file(Emp *root)
+{
+    FILE *fp;
+    if((fp=fopen("FileN", "wb"))==NULL){
         exit(1);
     }
-    countOfEven = 0;
-    countOfOdd = 0;
-    for(i=0;i<n;i++)
+    Emp *current = root;
+    while(current)
     {
-        printf("%d :", i);
-        scanf("%d",&arr[i]);
-        fwrite(&arr[i],sizeof(int),1,fp);
-        if(arr[i]%2==0)
+        fwrite(&current->employee,sizeof(struct Employee),1,fp);
+        current = current->next;
+    }
+    fclose(fp);
+}
+
+double sum_of_salary(Emp *root)
+{
+    double sum = 0;
+    Emp *current = root;
+    while(current->next)
+    {
+        if(current->employee.gender == 'f'&&current->employee.name[0]>'M')
         {
-            countOfEven++;
+            sum += current->employee.salary;
+        }
+    }
+    current = current->next;
+    return sum;
+}
+
+Emp *half_max(Emp *root)
+{
+    Emp *current = root;
+    Emp *new_root = NULL;
+    Emp *item = NULL;
+    double max = 0;
+
+    while(current == NULL)
+    {
+        if(current->employee.salary > max)
+        {
+            max = current->employee.salary;
+        }
+        current = current->next;
+    }
+
+    //reset current
+    current = root;
+
+    while(current == NULL)
+    {
+        if(current->employee.salary > max/2)
+        {
+            item = (Emp *)malloc(sizeof(Emp));
+            item->employee = current->employee;
+            item->next=new_root;
+            new_root = item;
+        }
+        current = current->next;
+    }
+
+    return new_root;
+}
+
+Emp *remove_emp(Emp *root, char letter)
+{
+    Emp *prev = root;
+    Emp *current = root;
+    while(current != NULL)
+    {
+        if(current->employee.name[0] == letter)
+        {
+            if(current == root)
+            {
+                root = root->next;
+                prev = root;
+                free(current);
+                current = prev;
+            }
+            else
+            {
+                prev->next = current->next;
+                free(current);
+                current = prev->next;
+            }
         }
         else
         {
-            countOfOdd++;
-        }
-    }
-    fclose(fp);
-    printf("Count of even digits: %d\n",countOfEven);
-    printf("Count of odd digits: %d\n",countOfOdd);
-
-
-    if((fp=fopen("fileText","w"))==NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
-
-    for(i=0;i<n-1;i++)
-    {
-        for(j=0;j<n-i-1;j++)
-        {
-            if(arr[j]>arr[j+1])
-            {
-                swap=arr[j];
-                arr[j]=arr[j+1];
-                arr[j+1]=swap;
-            }
+            prev = current;
+            current = current->next;
         }
     }
 
-    for(i=0;i<n;i++)
-    {
-        fprintf(fp,"%d\n",arr[i]);
-    }
-    fclose(fp);
-    return 0;
+    return root;
+}
+
+int main()
+{
+  return 0;
 }
